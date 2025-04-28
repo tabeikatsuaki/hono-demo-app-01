@@ -1,0 +1,18 @@
+import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
+
+const app = new Hono();
+
+// ルートパスにGETリクエストが来たときのバンドラー
+app.get('/', (c) => {
+  return c.text('Hello Hono!')
+});
+
+// サーバーをポート3000でリッスン
+const port = 3000;
+serve({
+  fetch: app.fetch,
+  port,
+}, () => {
+  console.log(`Honoサーバーが http://localhost:${port} で起動中です！`);
+});

@@ -1,0 +1,15 @@
+FROM postgres:17
+
+# ARG DB_NAME
+# ARG DB_USER
+# ARG DB_PASSWORD
+
+# ENV POSTGRES_DB=${DB_NAME}
+# ENV POSTGRES_USER=${DB_USER}
+# ENV POSTGRES_PASSWORD=${DB_PASSWORD}
+ENV PGDATA=/var/lib/postgresql/data
+ENV TZ=Asia/Tokyo
+
+VOLUME /var/lib/postgresql/data
+
+EXPOSE 5432

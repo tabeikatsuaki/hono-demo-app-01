@@ -1,0 +1,15 @@
+{
+  "name": "hono-demo-01-e2e",
+  "version": "1.0.0",
+  "description": "E2E tests for Next.js demo app",
+  "author": "Katsuaki Tabei",
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {},
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.14.1",
+    "dotenv": "^16.5.0",
+    "typescript": "5.8.3"
+  }
+}

@@ -1,0 +1,36 @@
+service:
+  app:
+    image: hono-demo-01-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${APP_PORT}:3000
+    volumes:
+      - .:/usr/app
+    networks:
+      - my-demo-network
+    depends_on:
+      - db
+  db:
+    image: hono-demo-01-db
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
+        POSTGRES_DB: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - my-demo-network
+
+volumes:
+  db-data:
+
+networks:
+  my-demo-network:
+    driver: bridge
