@@ -14,6 +14,10 @@ app.get('/', (c) => {
   return c.text('Hello Hono!')
 });
 
+app.post('/token', async (c) => {
+  return c.text('Token received!');
+});
+
 // サーバーをポート3000でリッスン
 const port = 3000;
 serve({

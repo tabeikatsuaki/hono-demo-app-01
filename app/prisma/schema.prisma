@@ -1,0 +1,100 @@
+// Prismaスキーマ定義ファイルです。
+// 公式ドキュメント：https://pris.ly/d/prisma-schema
+
+// ---------- データソース（データベース接続情報）----------
+// アプリケーションが接続するデータベースを設定します。
+// provider: 使用するデータベースの種類を指定します。
+// url: データベースへの接続文字列を指定します。通常は環境変数から読み込みます。
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+// タスクのステータス
+enum TaskStatus {
+  // 未着手
+  TODO
+  // 進行中
+  IN_PROGRESS
+  // 完了
+  DONE
+  // ブロック中
+  BLOCKED
+}
+
+// タスクの優先度（任意）
+enum TaskPriority {
+  // 高
+  HIGH
+  // 中
+  MEDIUM
+  // 低
+  LOW
+}
+
+// Userモデル
+model User {
+  // ID
+  id String @id @default(uuid())
+  // メールアドレス
+  email String @unique
+  // 名前（任意）
+  name String?
+  // 作成日時
+  createdAt DateTime @default(now())
+  // 更新日時
+  updatedAt DateTime @updatedAt
+  // 削除日時（任意）
+  deletedAt DateTime?
+
+  // タスクとのリレーション
+  tasks Task[]
+}
+
+// Projectモデル
+model Project {
+  // ID
+  id String @id @default(uuid())
+  // プロジェクト名
+  name String
+  // 説明（任意）
+  description String?
+  // 作成日時
+  createdAt DateTime @default(now())
+  // 更新日時
+  updatedAt DateTime @updatedAt
+
+  // タスクとのリレーション
+  tasks Task[]
+}
+
+// Taskモデル
+model Task {
+  // ID
+  id String @id @default(uuid())
+  // タイトル
+  title String
+  // 説明（任意）
+  descriptioon String?
+  // ステータス
+  status TaskStatus @default(TODO)
+  // 優先度（任意）
+  priority TaskPriority?
+  // 期限（任意）
+  deadline DateTime?
+  // 作成日時
+  createdAt DateTime @default(now())
+  // 更新日時
+  updatedAt DateTime @updatedAt
+  // ユーザーID（外部キー）
+  userId String
+  // ユーザーとのリレーション
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // プロジェクトID（外部キー・任意）
+  projectId String?
+  // プロジェクトとのリレーション
+  project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([projectId])
+}
