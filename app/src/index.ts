@@ -3,7 +3,7 @@ import { serve } from '@hono/node-server';
 
 const app = new Hono();
 
-// Honoのミドルウェアを使ってリクエストのログを出力
+// Honoのミドルウェアでリクエストのログ出力
 app.use('*', async (c, next) => {
   console.log(`📢 ${c.req.method} ${c.req.url}`);
   await next();
